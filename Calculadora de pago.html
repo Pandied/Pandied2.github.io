@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Calculadora de Pago</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+
+    <h1>Calculadora de Pago</h1>
+    <p>Selecciona una opción:</p>
+    <select id="opciones">
+        <option disabled selected>Seleccione la opción</option>
+        <option value="carga">Carga</option>
+        <option value="pasajeros">Pasajeros</option>
+        <option value="encomiendas">Encomiendas</option>
+        <option value="animales">Animales</option>
+        <option value="salir">Salir</option>
+    </select>
+
+    <p>Total a pagar: <span id="totalPagar">0</span></p>
+
+    <ul id="listaPrecios">
+        <!-- Lista de precios acumulados -->
+    </ul>
+
+    <script>
+        $(document).ready(function(){
+            var totalPagar = 0;
+            var preciosAcumulados = {}; // Almacena precios acumulados por opción
+        
+            $('#opciones').change(function(){
+                var opcionSeleccionada = $(this).val();
+                
+                if (opcionSeleccionada === 'salir') {
+                    console.log('Saliendo del programa.');
+                    return;
+                }
+                
+                var montoPago = 0;
+                
+                switch(opcionSeleccionada) {
+                    case 'carga':
+                        var tipoCarga = prompt('Selecciona tipo de carga: Agroindustrial, Metales, Madera');
+                        if (tipoCarga === 'Agroindustrial') {
+                            montoPago = 3.1;
+                        } else if (tipoCarga === 'Metales') {
+                            montoPago = 2.75;
+                        } else if (tipoCarga === 'Madera') {
+                            montoPago = 3.05;
+                        } else {
+                            console.log('Tipo de carga no válido.');
+                            return;
+                        }
+                        break;
+                    case 'pasajeros':
+                        var ruta = prompt('Selecciona ruta: Lima-Ica, Ica-Nazca, Nazca-Ayacucho');
+                        if (ruta === 'Lima-Ica') {
+                            montoPago = 22;
+                        } else if (ruta === 'Ica-Nazca') {
+                            montoPago = 10;
+                        } else if (ruta === 'Nazca-Ayacucho') {
+                            montoPago = 30;
+                        } else {
+                            console.log('Ruta no válida.');
+                            return;
+                        }
+                        break;
+                    case 'encomiendas':
+                        var tipoEncomienda = prompt('Selecciona tipo de encomienda: Sobres, Paquetes, Bultos');
+                        if (tipoEncomienda === 'Sobres') {
+                            montoPago = 5;
+                        } else if (tipoEncomienda === 'Paquetes') {
+                            montoPago = 12;
+                        } else if (tipoEncomienda === 'Bultos') {
+                            montoPago = 7;
+                        } else {
+                            console.log('Tipo de encomienda no válido.');
+                            return;
+                        }
+                        break;
+                    case 'animales':
+                        montoPago = 25;
+                        break;
+                    default:
+                        console.log('Opción no válida.');
+                        return;
+                }
+                
+                totalPagar += montoPago;
+                $('#totalPagar').text(totalPagar);
+        
+                // Agregar precio acumulado a la lista
+                if (!preciosAcumulados[opcionSeleccionada]) {
+                    preciosAcumulados[opcionSeleccionada] = 0;
+                }
+                preciosAcumulados[opcionSeleccionada] += montoPago;
+        
+                // Actualizar la lista de precios acumulados
+                $('#listaPrecios').empty();
+                $.each(preciosAcumulados, function(opcion, precio){
+                    $('#listaPrecios').append('<li>' + opcion.charAt(0).toUpperCase() + opcion.slice(1) + ': ' + precio + '</li>');
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>

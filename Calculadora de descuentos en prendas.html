@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Calculadora de Descuentos en Prendas</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+
+    <h1>Calculadora de Descuentos en Prendas</h1>
+
+    <label for="tipoPrenda">Tipo de prenda:</label>
+    <select id="tipoPrenda">
+        <option value="varon">Varón</option>
+        <option value="dama">Dama</option>
+    </select>
+
+    <label for="tipoOrigen">Origen de la prenda:</label>
+    <select id="tipoOrigen">
+        <option value="nacional">Nacional</option>
+        <option value="importado">Importado</option>
+    </select>
+
+    <label for="talla">Talla:</label>
+    <select id="talla">
+        <option value="S">S</option>
+        <option value="M">M</option>
+        <option value="L">L</option>
+    </select>
+
+    <button id="calcularDescuento">Calcular Descuento</button>
+
+    <p>Monto comprado: <span id="montoComprado">0</span></p>
+    <p>Descuento: <span id="descuento">0</span></p>
+    <p>Monto a pagar: <span id="montoPagar">0</span></p>
+
+    <script>
+        $(document).ready(function(){
+            $('#calcularDescuento').click(function(){
+                var tipoPrenda = $('#tipoPrenda').val();
+                var tipoOrigen = $('#tipoOrigen').val();
+                var talla = $('#talla').val();
+        
+                var descuento = 0;
+                var montoComprado = parseFloat(prompt("Ingrese el monto comprado:"));
+        
+                if (isNaN(montoComprado) || montoComprado <= 0) {
+                    alert("Por favor, ingrese un monto válido.");
+                    return;
+                }
+        
+                // Convertir el monto a una unidad mayor
+                montoComprado *= 10;
+        
+                if (tipoPrenda === 'varon') {
+                    if (tipoOrigen === 'nacional') {
+                        switch (talla) {
+                            case 'S':
+                                descuento = 10;
+                                break;
+                            case 'M':
+                                descuento = 12;
+                                break;
+                            case 'L':
+                                descuento = 15;
+                                break;
+                            default:
+                                alert("Talla no válida para varones nacionales.");
+                                return;
+                        }
+                    } else if (tipoOrigen === 'importado') {
+                        switch (talla) {
+                            case 'S':
+                                descuento = 5;
+                                break;
+                            case 'M':
+                                descuento = 7;
+                                break;
+                            case 'L':
+                                descuento = 10;
+                                break;
+                            default:
+                                alert("Talla no válida para varones importados.");
+                                return;
+                        }
+                    }
+                } else if (tipoPrenda === 'dama') {
+                    if (tipoOrigen === 'nacional') {
+                        switch (talla) {
+                            case 'S':
+                                descuento = 15;
+                                break;
+                            case 'M':
+                                descuento = 17;
+                                break;
+                            case 'L':
+                                descuento = 20;
+                                break;
+                            default:
+                                alert("Talla no válida para damas nacionales.");
+                                return;
+                        }
+                    } else if (tipoOrigen === 'importado') {
+                        switch (talla) {
+                            case 'S':
+                                descuento = 7;
+                                break;
+                            case 'M':
+                                descuento = 9;
+                                break;
+                            case 'L':
+                                descuento = 12;
+                                break;
+                            default:
+                                alert("Talla no válida para damas importadas.");
+                                return;
+                        }
+                    }
+                }
+        
+                var montoDescuento = (montoComprado * descuento) / 100;
+                var montoPagar = montoComprado - montoDescuento;
+        
+                // Convertir los montos a una unidad menor para mostrarlos
+                montoComprado /= 10;
+                montoDescuento /= 10;
+                montoPagar /= 10;
+        
+                $('#montoComprado').text(montoComprado.toFixed(2));
+                $('#descuento').text(montoDescuento.toFixed(2));
+                $('#montoPagar').text(montoPagar.toFixed(2));
+            });
+        });
+    </script>
+
+</body>
+
+</html>

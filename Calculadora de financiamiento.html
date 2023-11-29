@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Calculadora de Financiamiento</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+
+    <h1>Calculadora de Financiamiento</h1>
+
+    <label for="montoCompra">Monto de la Compra:</label>
+    <input type="number" id="montoCompra">
+
+    <label for="tipoFinanciamiento">Tipo de Financiamiento:</label>
+    <select id="tipoFinanciamiento">
+        <option value="1">Tipo 1 (2 letras)</option>
+        <option value="2">Tipo 2 (4 letras)</option>
+        <option value="3">Tipo 3 (6 letras)</option>
+    </select>
+
+    <button id="calcularFinanciamiento">Calcular Financiamiento</button>
+
+    <p>Monto de la factura: $<span id="montoFactura">0</span></p>
+    <p>Monto de los intereses: $<span id="montoIntereses">0</span></p>
+    <p>Nuevo monto de la factura (incluyendo intereses): $<span id="nuevoMontoFactura">0</span></p>
+    <p>Monto de la cuota inicial: $<span id="montoCuotaInicial">0</span></p>
+    <p>Monto de cada letra por pagar: $<span id="montoLetra">0</span></p>
+
+    <script>
+        $(document).ready(function(){
+            $('#calcularFinanciamiento').click(function(){
+                var montoCompra = parseFloat($('#montoCompra').val());
+                var tipoFinanciamiento = parseInt($('#tipoFinanciamiento').val());
+                var impuesto = montoCompra * 0.10; // 10% de impuesto
+        
+                var montoFactura = montoCompra + impuesto;
+        
+                var porcentajeInteres = 0;
+                var cuotaInicial = 0;
+                var numLetras = 0;
+        
+                switch (tipoFinanciamiento) {
+                    case 1:
+                        porcentajeInteres = 5;
+                        cuotaInicial = 60;
+                        numLetras = 2;
+                        break;
+                    case 2:
+                        porcentajeInteres = 10;
+                        cuotaInicial = 50;
+                        numLetras = 4;
+                        break;
+                    case 3:
+                        porcentajeInteres = 15;
+                        cuotaInicial = 35;
+                        numLetras = 6;
+                        break;
+                    default:
+                        alert("Tipo de financiamiento no válido.");
+                        return;
+                }
+        
+                var montoIntereses = (montoFactura * porcentajeInteres) / 100;
+                var nuevoMontoFactura = montoFactura + montoIntereses;
+                var montoLetra = (nuevoMontoFactura - cuotaInicial) / numLetras;
+        
+                $('#montoFactura').text(montoFactura.toFixed(2));
+                $('#montoIntereses').text(montoIntereses.toFixed(2));
+                $('#nuevoMontoFactura').text(nuevoMontoFactura.toFixed(2));
+                $('#montoCuotaInicial').text(cuotaInicial.toFixed(2));
+                $('#montoLetra').text(montoLetra.toFixed(2));
+            });
+        });
+    </script>
+
+</body>
+
+</html>

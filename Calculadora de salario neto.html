@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Calculadora de Salario Neto</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+
+    <h1>Calculadora de Salario Neto</h1>
+
+    <script>
+        $(document).ready(function(){
+            var continuar = true;
+        
+            while (continuar) {
+                var horasTrabajadas = parseFloat(prompt("Ingrese las horas trabajadas:"));
+        
+                if (horasTrabajadas < 0 || isNaN(horasTrabajadas)) {
+                    alert("Por favor, ingrese un número válido de horas trabajadas.");
+                    continue;
+                }
+        
+                var tarifaNormal = 10; // Tarifa por hora normal
+                var salarioBruto = 0;
+                var salarioNeto = 0;
+        
+                if (horasTrabajadas <= 40) {
+                    salarioBruto = horasTrabajadas * tarifaNormal;
+                } else {
+                    var horasNormales = 40;
+                    var horasExtras = horasTrabajadas - horasNormales;
+                    salarioBruto = horasNormales * tarifaNormal + horasExtras * (tarifaNormal * 1.5); // Calcula las horas extras a 1.5 veces la tarifa normal
+                }
+        
+                var impuesto = 0;
+                if (salarioBruto <= 200) {
+                    impuesto = 0;
+                } else if (salarioBruto <= 400) {
+                    impuesto = (salarioBruto - 200) * 0.25;
+                } else {
+                    impuesto = 50 + (salarioBruto - 400) * 0.35;
+                }
+        
+                salarioNeto = salarioBruto - impuesto;
+        
+                alert("El salario neto mensual es: S/. " + salarioNeto.toFixed(2));
+        
+                var opcion = confirm("¿Desea calcular el salario neto de otro trabajador?");
+                if (!opcion) {
+                    continuar = false;
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>
